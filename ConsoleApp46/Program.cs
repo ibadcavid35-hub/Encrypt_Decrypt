@@ -1,7 +1,6 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using Encrypt_Decrypt.EncryptionDecryptionUsingSymmetricKey;
 
-namespace ConsoleApp46
+namespace Encrypt_Decrypt
 {
     internal class Program
     {
@@ -53,6 +52,7 @@ namespace ConsoleApp46
                 }
                 else if (key.Key == ConsoleKey.Enter)
                 {
+                    Console.Clear();
                     if (select == 2)
                     {
                         isRun = false;
@@ -60,65 +60,22 @@ namespace ConsoleApp46
                     }
                     else if (select == 0)
                     {
-                        //Encrypt();
+                        Console.BackgroundColor= ConsoleColor.DarkGreen;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("ENCRYPT OPERATION");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        FileOperations.EncryptFileOperation();
                     }
                     else if (select == 1)
                     {
-                        //Decrypt();
-                    }
-                }
-            }
-        }
-
-
-        public static string EncryptString(string key, string plainText)
-        {
-            byte[] iv = new byte[16];
-            byte[] array;
-
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
-                        {
-                            streamWriter.Write(plainText);
-                        }
-
-                        array = memoryStream.ToArray();
-                    }
-                }
-            }
-            return Convert.ToBase64String(array);
-        }
-
-
-        public static string DecryptString(string key, string cipherText)
-        {
-            byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(cipherText);
-
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
-                        {
-                            return streamReader.ReadToEnd();
-                        }
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("DECRYPT OPERATION");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        FileOperations.DecryptFileOperation();
+                 
                     }
                 }
             }
